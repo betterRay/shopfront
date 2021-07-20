@@ -84,7 +84,8 @@
               <!-- <a href="javascript:;">
                             </a> -->
               <router-link :to="`/detail/${item.id}`">
-                <img :src="item.defaultImg" alt="" />
+                <!-- <img :src="item.defaultImg" alt="" /> -->
+                <img v-lazy="item.defaultImg" alt="" />
               </router-link>
             </div>
 
@@ -135,7 +136,7 @@ export default {
         keyword: "",
         order: "1:desc",
         pageNo: 16,
-        pageSize: 1,
+        pageSize: 2,
         props: [],
         trademark: "",
       },

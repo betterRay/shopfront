@@ -7,7 +7,7 @@ export const allGoodsType = function () {
             method: 'get',
         }
     )
-}
+}//获取商品页类型
 
 
 export const reqSearchInfo = function (info) {
@@ -18,7 +18,7 @@ export const reqSearchInfo = function (info) {
             data:info
         }
     )
-}
+}//获取商品页信息
 
 export const reqGoodsDetail = function (skuId) {
     return service(
@@ -27,7 +27,7 @@ export const reqGoodsDetail = function (skuId) {
             method: 'get',
         }
     )
-}
+}//获取商品详情
 
 export const addShopcart = function (skuId,skuNum) {
     return service(
@@ -36,7 +36,7 @@ export const addShopcart = function (skuId,skuNum) {
             method: 'post',
         }
     )
-}
+}//加入购物车
 
 export const getShopcart = function () {
     return service(
@@ -45,7 +45,7 @@ export const getShopcart = function () {
             method: 'get',
         }
     )
-}
+}//获取购物车列表
 
 export const deleteItem = function (skuId) {
     return service(
@@ -54,7 +54,7 @@ export const deleteItem = function (skuId) {
             method: 'delete',
         }
     )
-}
+}//删除购物车选项
 
 export const changeChecked = function (skuId,isChecked) {
     return service(
@@ -63,7 +63,7 @@ export const changeChecked = function (skuId,isChecked) {
             method: 'get',
         }
     )
-}
+}//改变购物车勾选状态
 
 export const register = function (info) {
     return service(
@@ -73,7 +73,7 @@ export const register = function (info) {
             data:info
         }
     )
-}
+}//注册用户
 
 export const getCode = function (phone) {
     return service(
@@ -82,7 +82,7 @@ export const getCode = function (phone) {
             method: 'get',
         }
     )
-}
+}//获取验证码
 
 export const getToken = function (info) {
     return service(
@@ -92,7 +92,7 @@ export const getToken = function (info) {
             data:info
         }
     )
-}
+}//登录
 
 export const logout = function () {
     return service(
@@ -101,5 +101,68 @@ export const logout = function () {
             method: 'get',
         }
     )
-}
+}//退出登录
 
+export const getUserinfo = function () {
+    return service(
+        {
+            url: '/user/passport/auth/getUserInfo',
+            method: 'get',
+        }
+    )
+}//获取用户信息
+
+export const gettradeinfo = function () {
+    return service(
+        {
+            url: '/order/auth/trade',
+            method: 'get',
+        }
+    )
+}//获取订单信息
+
+export const getUserAddress = function () {
+    return service(
+        {
+            url: '/user/userAddress/auth/findUserAddressList',
+            method: 'get',
+        }
+    )
+}//获取用户地址信息
+
+export const submitOrder = function (tradeNo,info) {
+    return service(
+        {
+            url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+            method: 'post',
+            data:info
+        }
+    )
+}//提交用户订单信息
+
+export const getOrderPay = function (orderId) {
+    return service(
+        {
+            url: `/payment/weixin/createNative/${orderId}`,
+            method: 'get',
+        }
+    )
+}//根据订单号获取订单支付页信息
+
+export const getOrderPayState = function (orderId) {
+    return service(
+        {
+            url: `/payment/weixin/queryPayStatus/${orderId}`,
+            method: 'get',
+        }
+    )
+}//根据订单号获取订单支付页信息
+
+export const getOrderList = function (page,limit) {
+    return service(
+        {
+            url: `/order/auth/${page}/${limit}`,
+            method: 'get',
+        }
+    )
+}//获取我的订单列表

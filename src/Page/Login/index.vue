@@ -21,7 +21,7 @@
 
             <div class="input-text clearFix">
               <i class="pwd"></i>
-              <input type="text" placeholder="请输入密码" v-model="password"/>
+              <input type="text" placeholder="请输入密码" v-model="password" />
               <span class="error-msg">错误提示信息</span>
             </div>
 
@@ -32,7 +32,9 @@
               </label>
               <span class="forget">忘记密码？</span>
             </div>
-            <button class="btn" @click.prevent="getToken">登&nbsp;&nbsp;录</button>
+            <button class="btn" @click.prevent="getToken">
+              登&nbsp;&nbsp;录
+            </button>
           </form>
           <div class="call clearFix">
             <ul>
@@ -55,22 +57,27 @@ export default {
   name: "Login",
   data() {
     return {
-      phone:'13700000000',
-      password:'111111'
-    }
+      phone: "13700000000",
+      password: "111111",
+    };
   },
   methods: {
-  async getToken(){
-      let info={phone:this.phone,password:this.password}
+    async getToken() {
+      let info = { phone: this.phone, password: this.password };
       try {
-        await this.$store.dispatch('getToken',info)
-        alert('登录成功，即将跳往首页')
-        this.$router.push('/home')
+        await this.$store.dispatch("getToken", info);
+        alert("登录成功，即将跳往首页");
+        let path = this.$route.query.path;
+        if (path) {
+          this.$router.push(path);
+        } else {
+          this.$router.push("/");
+        }
+        //如果带了query参数，就去往参数中想去的地方
       } catch (error) {
-        alert('登陆失败，请重新登录')
+        alert("登陆失败，请重新登录");
       }
-      
-    }
+    },
   },
 };
 </script>

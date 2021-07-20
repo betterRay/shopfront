@@ -7,6 +7,7 @@ import cart from './cart'
 import user from './user'
 import register from './register'
 import login from './login'
+import trade from './trade'
 Vue.use(Vuex)
 
 const state={
@@ -25,7 +26,8 @@ const store=new Vuex.Store(
         actions,
         mutations,
         modules:{
-            home,search,detail,cart,user,register,login
+            home,search,detail,cart,user,register,login,
+            trade
         }
     }
 )

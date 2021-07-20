@@ -10,14 +10,19 @@
     </h3>
     <div class="content">
       <label>手机号:</label>
-      <input type="text" placeholder="请输入你的手机号" v-model="data.phone" />
+      <!-- <input type="text" placeholder="请输入你的手机号" v-model="data.phone" />
       <span class="error-msg" v-if="/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/.test(data.phone)">手机号格式正确</span>
 	  <span class="error-msg" v-else-if="!/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/.test(data.phone)&&data.phone!==''">手机号输入格式错误！！！</span>
-	  <span class="error-msg" v-else-if="!/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/.test(data.phone)&&data.phone===''">必须输入手机号！！！</span>
+	  <span class="error-msg" v-else-if="!/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/.test(data.phone)&&data.phone===''">必须输入手机号！！！</span> -->
+        <input v-model="data.phone" name="phone" v-validate="{required: true,regex: /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/}" 
+              :class="{invalid: errors.has('phone')}">
+        <span class="error-msg">{{ errors.first('phone') }}</span>
     </div>
     <div class="content">
       <label>验证码:</label>
-      <input type="text" placeholder="请输入验证码" v-model="data.code" />
+      <!-- <input type="text" placeholder="请输入验证码" v-model="data.code" /> -->
+      <input v-model="data.code" name="code" v-validate="{required: true,regex: /^\d{6}$/}" 
+              :class="{invalid: errors.has('code')}">
       <button style="height: 38px; width: 100px" @click="getCode">
         获取验证码
       </button>
@@ -26,34 +31,45 @@
         src="http://182.92.128.115/api/user/passport/code"
         alt="code"
       /> -->
-      <span class="error-msg" v-if="/^\d{6}$/.test(data.code)">验证码格式正确</span>
+      <!-- <span class="error-msg" v-if="/^\d{6}$/.test(data.code)">验证码格式正确</span>
 	  <span class="error-msg" v-else-if="!/^\d{6}$/.test(data.code)&&data.code!==''">验证码输入格式错误！！！</span>
-	  <span class="error-msg" v-else-if="!/^\d{6}$/.test(data.code)&&data.code===''">必须输入验证码！！！</span>
+	  <span class="error-msg" v-else-if="!/^\d{6}$/.test(data.code)&&data.code===''">必须输入验证码！！！</span> -->
+    <span class="error-msg">{{ errors.first('code') }}</span>
     </div>
     <div class="content">
       <label>登录密码:</label>
-      <input
+      <!-- <input
         type="text"
         placeholder="请输入你的登录密码"
         v-model="data.password"
-      />
-      <span class="error-msg" v-if="/^[a-zA-Z]\w{5,17}$/.test(data.password)">密码格式正确</span>
+      /> -->
+      <input v-model="data.password" name="password" v-validate="{required: true,regex: /^[a-zA-Z]\w{5,17}$/}" 
+              :class="{invalid: errors.has('password')}">
+      <span class="error-msg">{{ errors.first('password') }}</span>
+      <!-- <span class="error-msg" v-if="/^[a-zA-Z]\w{5,17}$/.test(data.password)">密码格式正确</span>
 	  <span class="error-msg" v-else-if="!/^[a-zA-Z]\w{5,17}$/.test(data.password)&&data.password!==''">密码输入格式错误！！！</span>
-	  <span class="error-msg" v-else-if="!/^[a-zA-Z]\w{5,17}$/.test(data.password)&&data.password===''">必须输入密码！！！</span>
+	  <span class="error-msg" v-else-if="!/^[a-zA-Z]\w{5,17}$/.test(data.password)&&data.password===''">必须输入密码！！！</span> -->
     </div>
     <div class="content">
       <label>确认密码:</label>
-      <input
+      <!-- <input
         type="text"
         placeholder="请输入确认密码"
         v-model="passwordConfirm"
       />
-      <span class="error-msg" v-if="data.password===''">请再次输入密码！！！</span>
+      <span class="error-msg" v-if="data.password===''">请再次输入密码！！！</span> -->
+      <input v-model="passwordConfirm" name="passwordConfirm" v-validate="{required: true,is:data.password}" 
+              :class="{invalid: errors.has('passwordConfirm')}">
+      <span class="error-msg">{{ errors.first('passwordConfirm') }}</span>
     </div>
     <div class="controls">
-      <input name="m1" type="checkbox" v-model="agreement"/>
+      <!-- <input name="m1" type="checkbox" v-model="agreement"/>
       <span>同意协议并注册《尚品汇用户协议》</span>
-      <span class="error-msg" v-if="agreement===false">请您审阅并同意协议内容！！！</span>
+      <span class="error-msg" v-if="agreement===false">请您审阅并同意协议内容！！！</span> -->
+      <input v-model="agreement" name="agreement" v-validate="{agree:true}" 
+              :class="{invalid: errors.has('agreement')}" type="checkbox">
+              <span>同意协议并注册《尚品汇用户协议》</span>
+      <span class="error-msg">{{ errors.first('agreement') }}</span>
     </div>
     <div class="btn">
       <button @click="register()">完成注册</button>
@@ -86,18 +102,12 @@ export default {
   methods: {
     async register() {
       let info = this.data;
-      if (/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/.test(this.data.phone)
-	      &&this.agreement
-	      &&/^\d{6}$/.test(this.data.code)
-		  &&/^[a-zA-Z]\w{5,17}$/.test(this.data.password)
-	      &&this.data.password
-	      &&this.data.phone
-	      &&this.data.code
-	      &&this.data.password === this.passwordConfirm) {
+      const success = await this.$validator.validateAll()
+      if (success) {
         try {
           await this.$store.dispatch("register", info);
           alert("注册成功了，准备跳转页面");
-		  this.$router.push('/home')
+		      this.$router.push('/home')
         } catch (error) {
           alert("注册失败了");
         }

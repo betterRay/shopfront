@@ -7,12 +7,14 @@
         <ul class="user">
           <!-- 首行容器左边登录注册 -->
           <li>菡笑购欢迎你！</li>
-          <li v-if="$store.state.login.token">欢迎您，<a href="javascripte:;">Administrator</a> !</li>
+          <li v-if="$store.state.login.token">欢迎您，<a href="javascripte:;">{{$store.state.login.userinfo.name}}</a> !</li>
           <li v-if="$store.state.login.token">
            <a href="javascript:;" @click="logout">退出登录</a> 
           </li>
           <li v-else>
             请<router-link to="/login">登录</router-link>
+            <span>|没有账号？我要</span>
+            <router-link to="/register">注册</router-link>
             <!-- <a href="">登录</a> -->
           </li>
 
@@ -23,7 +25,10 @@
 
         <ul class="userlist">
           <!-- 首行容器右边列表选项 -->
-          <li><a href="">我的订单</a></li>
+          <li>
+            <!-- <a href="">我的订单</a> -->
+            <router-link to="/myOrder">我的订单</router-link>
+          </li>         
           <li class="verticalline"></li>
           <li>
             <!-- <a href="javascript:;">我的购物车</a> -->
@@ -87,7 +92,7 @@ export default {
           });
         }
       }
-    },
+    },//合并query参数然后一起跳转并传参
     removeKeyword() {
       this.keyword = "";
     }, //移出搜索框中的字
@@ -96,6 +101,7 @@ export default {
         await this.$store.dispatch('logout')
         this.$store.state.login.token=''
         localStorage.removeItem('token')
+        this.$store.state.login.userinfo={}
         this.$router.push('/home')
         alert('退出登录成功！')
       } catch (error) {

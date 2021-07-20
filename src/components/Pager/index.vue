@@ -76,6 +76,8 @@ export default {
                 line-height: 28px;
                 button{
                     vertical-align: middle;
+                    width: 60px;
+                    height: 100%;
                     &.active{
                         background-color: rgb(159, 147, 226);
                     }

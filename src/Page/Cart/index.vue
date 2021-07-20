@@ -115,7 +115,7 @@
         </div>
         <div class="sumbtn">
           <!-- <a class="sum-btn" href="javascript:;">结算</a> -->
-          <router-link to="/login" class="sum-btn">结算</router-link>
+          <router-link to="/trade" class="sum-btn">结算</router-link>
         </div>
       </div>
     </div>
@@ -200,7 +200,12 @@ export default {
           }
         }
       });
-    },
+    },//删除所有购物车商品
+    toPay(){
+      if(this.$store.state.login.token){
+        this.$router.push('/pay')
+      }
+    }
   },
   computed: {
     ...mapGetters(["cartList"]),
